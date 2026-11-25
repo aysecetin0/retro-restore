@@ -1,0 +1,13 @@
+# Çekirdek (CPU'da klasik mod + web arayüzü için yeterli)
+numpy>=1.24
+opencv-contrib-python-headless>=4.8   # contrib: EDSR/FSRCNN (dnn_superres) karşılaştırması için
+flask>=3.0
+scikit-image>=0.21                    # yalnızca scripts/make_dataset.py dahili örnek görüntüleri için
+pytest>=7
+
+# Derin öğrenme (Real-ESRGAN). GPU için PyTorch'u https://pytorch.org adresindeki
+# komutla CUDA sürümünüze uygun kurun; aşağıdaki satır CPU sürümünü kurar.
+torch>=2.1
+
+# İsteğe bağlı: algısal metrik
+# lpips>=0.1.4

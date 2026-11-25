@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+outputs/
+models/*.pth
+models/*.pb
+models/*.caffemodel
+models/*.prototxt
+models/*.npy
+*.part
+.DS_Store
+Thumbs.db
+dataset/results/_tmp/

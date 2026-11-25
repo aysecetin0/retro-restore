@@ -1,0 +1,504 @@
+{
+  "created": "2026-11-25 20:43",
+  "seed": 2026,
+  "source": "scikit-image örnekleri (kamu malı / CC0)",
+  "groups": {
+    "bicubic_x4": "Yalnızca bicubic ile 4× küçültme (SRCNN/EDSR'ın eğitildiği 'ideal' bozulma)",
+    "realworld_x4": "Real-ESRGAN tarzı yüksek dereceli bozulma, 4× (bulanıklık, gürültü, JPEG, yeniden boyut ×2 tur)",
+    "realworld_x2": "Real-ESRGAN tarzı yüksek dereceli bozulma, 2×",
+    "old_photo": "Eski fotoğraf simülasyonu, 2×: sepya, solma, vinyet, gren, çizik, toz, bulanıklık, JPEG",
+    "grayscale": "Siyah-beyaz sürüm (renklendirme testi), aynı çözünürlük"
+  },
+  "images": [
+    {
+      "group": "bicubic_x4",
+      "name": "astronaut",
+      "gt": "ground_truth/astronaut.png",
+      "degraded": "degraded/bicubic_x4/astronaut.png",
+      "size_gt": "512x512",
+      "size_lr": "128x128",
+      "scale": 4.0,
+      "degradations": [
+        "bicubic_down(×4)"
+      ]
+    },
+    {
+      "group": "realworld_x4",
+      "name": "astronaut",
+      "gt": "ground_truth/astronaut.png",
+      "degraded": "degraded/realworld_x4/astronaut.png",
+      "size_gt": "512x512",
+      "size_lr": "128x128",
+      "scale": 4.0,
+      "degradations": [
+        "gauss_blur(σ=1.55)",
+        "resize(area,423x423)",
+        "gauss_noise(σ=16.2)",
+        "jpeg(q=52)",
+        "aniso_blur(σx=1.70,σy=1.01,θ=12°)",
+        "resize(area,504x504)",
+        "poisson_noise(ölçek=0.18)",
+        "resize(bilinear,128x128)",
+        "jpeg(q=61)"
+      ]
+    },
+    {
+      "group": "realworld_x2",
+      "name": "astronaut",
+      "gt": "ground_truth/astronaut.png",
+      "degraded": "degraded/realworld_x2/astronaut.png",
+      "size_gt": "512x512",
+      "size_lr": "256x256",
+      "scale": 2.0,
+      "degradations": [
+        "aniso_blur(σx=0.95,σy=0.65,θ=86°)",
+        "resize(bicubic,345x345)",
+        "gauss_noise(σ=10.1)",
+        "jpeg(q=87)",
+        "resize(bicubic,325x325)",
+        "gauss_noise(σ=11.1)",
+        "resize(area,256x256)",
+        "jpeg(q=46)"
+      ]
+    },
+    {
+      "group": "old_photo",
+      "name": "astronaut",
+      "gt": "ground_truth/astronaut.png",
+      "degraded": "degraded/old_photo/astronaut.png",
+      "size_gt": "512x512",
+      "size_lr": "256x256",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=1.30)",
+        "downscale(×2)",
+        "gri_ton",
+        "solma(kontrast×0.58)",
+        "vinyet",
+        "gauss_noise(σ=3.9,gri)",
+        "cizik(6)+toz(123)",
+        "jpeg(q=76)"
+      ]
+    },
+    {
+      "group": "grayscale",
+      "name": "astronaut",
+      "gt": "ground_truth/astronaut.png",
+      "degraded": "degraded/grayscale/astronaut.png",
+      "size_gt": "512x512",
+      "size_lr": "512x512",
+      "scale": 1.0,
+      "degradations": [
+        "to_gray"
+      ]
+    },
+    {
+      "group": "bicubic_x4",
+      "name": "coffee",
+      "gt": "ground_truth/coffee.png",
+      "degraded": "degraded/bicubic_x4/coffee.png",
+      "size_gt": "512x340",
+      "size_lr": "128x85",
+      "scale": 4.0,
+      "degradations": [
+        "bicubic_down(×4)"
+      ]
+    },
+    {
+      "group": "realworld_x4",
+      "name": "coffee",
+      "gt": "ground_truth/coffee.png",
+      "degraded": "degraded/realworld_x4/coffee.png",
+      "size_gt": "512x340",
+      "size_lr": "128x85",
+      "scale": 4.0,
+      "degradations": [
+        "aniso_blur(σx=0.93,σy=0.93,θ=163°)",
+        "resize(bilinear,455x302)",
+        "gauss_noise(σ=6.1)",
+        "jpeg(q=87)",
+        "aniso_blur(σx=1.12,σy=0.51,θ=65°)",
+        "resize(bicubic,312x207)",
+        "gauss_noise(σ=3.2,gri)",
+        "resize(area,128x85)",
+        "jpeg(q=47)"
+      ]
+    },
+    {
+      "group": "realworld_x2",
+      "name": "coffee",
+      "gt": "ground_truth/coffee.png",
+      "degraded": "degraded/realworld_x2/coffee.png",
+      "size_gt": "512x340",
+      "size_lr": "256x170",
+      "scale": 2.0,
+      "degradations": [
+        "aniso_blur(σx=1.82,σy=0.31,θ=172°)",
+        "resize(bilinear,444x295)",
+        "poisson_noise(ölçek=2.00)",
+        "jpeg(q=33)",
+        "aniso_blur(σx=1.83,σy=0.80,θ=91°)",
+        "resize(bilinear,440x292)",
+        "poisson_noise(ölçek=0.83)",
+        "resize(area,256x170)",
+        "jpeg(q=41)"
+      ]
+    },
+    {
+      "group": "old_photo",
+      "name": "coffee",
+      "gt": "ground_truth/coffee.png",
+      "degraded": "degraded/old_photo/coffee.png",
+      "size_gt": "512x340",
+      "size_lr": "256x170",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=1.48)",
+        "downscale(×2)",
+        "gri_ton",
+        "solma(kontrast×0.64)",
+        "vinyet",
+        "gauss_noise(σ=2.2)",
+        "cizik(11)+toz(147)",
+        "jpeg(q=62)"
+      ]
+    },
+    {
+      "group": "grayscale",
+      "name": "coffee",
+      "gt": "ground_truth/coffee.png",
+      "degraded": "degraded/grayscale/coffee.png",
+      "size_gt": "512x340",
+      "size_lr": "512x340",
+      "scale": 1.0,
+      "degradations": [
+        "to_gray"
+      ]
+    },
+    {
+      "group": "bicubic_x4",
+      "name": "chelsea",
+      "gt": "ground_truth/chelsea.png",
+      "degraded": "degraded/bicubic_x4/chelsea.png",
+      "size_gt": "448x300",
+      "size_lr": "112x75",
+      "scale": 4.0,
+      "degradations": [
+        "bicubic_down(×4)"
+      ]
+    },
+    {
+      "group": "realworld_x4",
+      "name": "chelsea",
+      "gt": "ground_truth/chelsea.png",
+      "degraded": "degraded/realworld_x4/chelsea.png",
+      "size_gt": "448x300",
+      "size_lr": "112x75",
+      "scale": 4.0,
+      "degradations": [
+        "aniso_blur(σx=1.48,σy=0.94,θ=23°)",
+        "resize(bilinear,361x242)",
+        "gauss_noise(σ=8.1)",
+        "jpeg(q=42)",
+        "gauss_blur(σ=0.57)",
+        "resize(area,303x203)",
+        "poisson_noise(ölçek=0.93)",
+        "resize(bilinear,112x75)",
+        "jpeg(q=66)"
+      ]
+    },
+    {
+      "group": "realworld_x2",
+      "name": "chelsea",
+      "gt": "ground_truth/chelsea.png",
+      "degraded": "degraded/realworld_x2/chelsea.png",
+      "size_gt": "448x300",
+      "size_lr": "224x150",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=2.12)",
+        "resize(bicubic,447x300)",
+        "poisson_noise(ölçek=0.63)",
+        "jpeg(q=38)",
+        "aniso_blur(σx=1.41,σy=1.05,θ=59°)",
+        "resize(bilinear,408x274)",
+        "poisson_noise(ölçek=1.52)",
+        "resize(area,224x150)",
+        "jpeg(q=32)"
+      ]
+    },
+    {
+      "group": "old_photo",
+      "name": "chelsea",
+      "gt": "ground_truth/chelsea.png",
+      "degraded": "degraded/old_photo/chelsea.png",
+      "size_gt": "448x300",
+      "size_lr": "224x150",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=0.46)",
+        "downscale(×2)",
+        "gri_ton",
+        "solma(kontrast×0.65)",
+        "vinyet",
+        "gauss_noise(σ=12.6)",
+        "cizik(12)+toz(191)",
+        "jpeg(q=50)"
+      ]
+    },
+    {
+      "group": "grayscale",
+      "name": "chelsea",
+      "gt": "ground_truth/chelsea.png",
+      "degraded": "degraded/grayscale/chelsea.png",
+      "size_gt": "448x300",
+      "size_lr": "448x300",
+      "scale": 1.0,
+      "degradations": [
+        "to_gray"
+      ]
+    },
+    {
+      "group": "bicubic_x4",
+      "name": "rocket",
+      "gt": "ground_truth/rocket.png",
+      "degraded": "degraded/bicubic_x4/rocket.png",
+      "size_gt": "512x340",
+      "size_lr": "128x85",
+      "scale": 4.0,
+      "degradations": [
+        "bicubic_down(×4)"
+      ]
+    },
+    {
+      "group": "realworld_x4",
+      "name": "rocket",
+      "gt": "ground_truth/rocket.png",
+      "degraded": "degraded/realworld_x4/rocket.png",
+      "size_gt": "512x340",
+      "size_lr": "128x85",
+      "scale": 4.0,
+      "degradations": [
+        "aniso_blur(σx=1.75,σy=1.13,θ=144°)",
+        "resize(bilinear,445x295)",
+        "poisson_noise(ölçek=0.62)",
+        "jpeg(q=67)",
+        "aniso_blur(σx=0.53,σy=0.46,θ=74°)",
+        "resize(area,447x296)",
+        "gauss_noise(σ=10.6,gri)",
+        "resize(bicubic,128x85)",
+        "jpeg(q=30)"
+      ]
+    },
+    {
+      "group": "realworld_x2",
+      "name": "rocket",
+      "gt": "ground_truth/rocket.png",
+      "degraded": "degraded/realworld_x2/rocket.png",
+      "size_gt": "512x340",
+      "size_lr": "256x170",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=1.61)",
+        "resize(bilinear,509x338)",
+        "gauss_noise(σ=6.1)",
+        "jpeg(q=42)",
+        "aniso_blur(σx=2.05,σy=0.43,θ=134°)",
+        "resize(bilinear,474x315)",
+        "gauss_noise(σ=7.3,gri)",
+        "resize(bilinear,256x170)",
+        "jpeg(q=31)"
+      ]
+    },
+    {
+      "group": "old_photo",
+      "name": "rocket",
+      "gt": "ground_truth/rocket.png",
+      "degraded": "degraded/old_photo/rocket.png",
+      "size_gt": "512x340",
+      "size_lr": "256x170",
+      "scale": 2.0,
+      "degradations": [
+        "aniso_blur(σx=2.32,σy=0.35,θ=155°)",
+        "downscale(×2)",
+        "sepya_ton",
+        "solma(kontrast×0.75)",
+        "vinyet",
+        "poisson_noise(ölçek=0.44)",
+        "cizik(9)+toz(192)",
+        "jpeg(q=47)"
+      ]
+    },
+    {
+      "group": "grayscale",
+      "name": "rocket",
+      "gt": "ground_truth/rocket.png",
+      "degraded": "degraded/grayscale/rocket.png",
+      "size_gt": "512x340",
+      "size_lr": "512x340",
+      "scale": 1.0,
+      "degradations": [
+        "to_gray"
+      ]
+    },
+    {
+      "group": "bicubic_x4",
+      "name": "camera",
+      "gt": "ground_truth/camera.png",
+      "degraded": "degraded/bicubic_x4/camera.png",
+      "size_gt": "512x512",
+      "size_lr": "128x128",
+      "scale": 4.0,
+      "degradations": [
+        "bicubic_down(×4)"
+      ]
+    },
+    {
+      "group": "realworld_x4",
+      "name": "camera",
+      "gt": "ground_truth/camera.png",
+      "degraded": "degraded/realworld_x4/camera.png",
+      "size_gt": "512x512",
+      "size_lr": "128x128",
+      "scale": 4.0,
+      "degradations": [
+        "aniso_blur(σx=2.05,σy=0.56,θ=173°)",
+        "resize(bilinear,544x544)",
+        "gauss_noise(σ=5.9,gri)",
+        "jpeg(q=39)",
+        "gauss_blur(σ=0.99)",
+        "resize(bilinear,474x474)",
+        "poisson_noise(ölçek=1.16)",
+        "resize(bicubic,128x128)",
+        "jpeg(q=50)"
+      ]
+    },
+    {
+      "group": "realworld_x2",
+      "name": "camera",
+      "gt": "ground_truth/camera.png",
+      "degraded": "degraded/realworld_x2/camera.png",
+      "size_gt": "512x512",
+      "size_lr": "256x256",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=0.88)",
+        "resize(bilinear,459x459)",
+        "gauss_noise(σ=18.2)",
+        "jpeg(q=75)",
+        "gauss_blur(σ=0.44)",
+        "resize(bicubic,334x334)",
+        "gauss_noise(σ=7.5)",
+        "resize(bilinear,256x256)",
+        "jpeg(q=78)"
+      ]
+    },
+    {
+      "group": "old_photo",
+      "name": "camera",
+      "gt": "ground_truth/camera.png",
+      "degraded": "degraded/old_photo/camera.png",
+      "size_gt": "512x512",
+      "size_lr": "256x256",
+      "scale": 2.0,
+      "degradations": [
+        "aniso_blur(σx=1.03,σy=0.33,θ=17°)",
+        "downscale(×2)",
+        "sepya_ton",
+        "solma(kontrast×0.63)",
+        "vinyet",
+        "gauss_noise(σ=6.2)",
+        "cizik(11)+toz(121)",
+        "jpeg(q=63)"
+      ]
+    },
+    {
+      "group": "bicubic_x4",
+      "name": "test_pattern",
+      "gt": "ground_truth/test_pattern.png",
+      "degraded": "degraded/bicubic_x4/test_pattern.png",
+      "size_gt": "512x512",
+      "size_lr": "128x128",
+      "scale": 4.0,
+      "degradations": [
+        "bicubic_down(×4)"
+      ]
+    },
+    {
+      "group": "realworld_x4",
+      "name": "test_pattern",
+      "gt": "ground_truth/test_pattern.png",
+      "degraded": "degraded/realworld_x4/test_pattern.png",
+      "size_gt": "512x512",
+      "size_lr": "128x128",
+      "scale": 4.0,
+      "degradations": [
+        "aniso_blur(σx=2.17,σy=0.60,θ=64°)",
+        "resize(bilinear,350x350)",
+        "gauss_noise(σ=16.9)",
+        "jpeg(q=84)",
+        "gauss_blur(σ=0.53)",
+        "resize(bilinear,403x403)",
+        "poisson_noise(ölçek=0.64)",
+        "resize(area,128x128)",
+        "jpeg(q=46)"
+      ]
+    },
+    {
+      "group": "realworld_x2",
+      "name": "test_pattern",
+      "gt": "ground_truth/test_pattern.png",
+      "degraded": "degraded/realworld_x2/test_pattern.png",
+      "size_gt": "512x512",
+      "size_lr": "256x256",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=1.86)",
+        "resize(area,345x345)",
+        "poisson_noise(ölçek=1.02)",
+        "jpeg(q=34)",
+        "aniso_blur(σx=1.23,σy=0.54,θ=131°)",
+        "resize(area,493x493)",
+        "poisson_noise(ölçek=1.38)",
+        "resize(area,256x256)",
+        "jpeg(q=54)"
+      ]
+    },
+    {
+      "group": "old_photo",
+      "name": "test_pattern",
+      "gt": "ground_truth/test_pattern.png",
+      "degraded": "degraded/old_photo/test_pattern.png",
+      "size_gt": "512x512",
+      "size_lr": "256x256",
+      "scale": 2.0,
+      "degradations": [
+        "gauss_blur(σ=0.89)",
+        "downscale(×2)",
+        "gri_ton",
+        "solma(kontrast×0.59)",
+        "vinyet",
+        "gauss_noise(σ=5.7,gri)",
+        "cizik(9)+toz(122)",
+        "jpeg(q=76)"
+      ]
+    }
+  ],
+  "videos": [
+    {
+      "name": "clip_old_film",
+      "gt": "videos/gt/clip_clean.mp4",
+      "degraded": "videos/degraded/clip_old_film.mp4",
+      "info": "6 sn · 24 fps · GT 640x360 · bozulmuş 320x180 · ses: 220 Hz + saniyede bir 1 kHz bip",
+      "degradations": [
+        "downscale(×2)",
+        "S/B+sepya",
+        "parlaklık titremesi",
+        "gren(σ=9)",
+        "dikey film çizikleri",
+        "H.264 180 kbit/s"
+      ],
+      "sync_test": "Her saniyenin ilk 2 karesinde beyaz çerçeve flaşı ve aynı anda 80 ms bip vardır; çıktıda flaş ile bip hâlâ çakışıyorsa ses–görüntü senkronu korunmuştur."
+    }
+  ]
+}
