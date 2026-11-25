@@ -190,7 +190,7 @@ class RealESRGANer:
         s = self.scale
         # Dolgular yalnızca sağ/alt kenara eklendiği için tek kırpma ikisini de kaldırır
         out = out[:, :, : h * s, : w * s]
-        arr = out.squeeze(0).clamp_(0, 1).numpy().transpose(1, 2, 0)
+        arr = out.squeeze(0).clamp(0, 1).numpy().transpose(1, 2, 0)
         arr = cv2.cvtColor((arr * 255.0).round().astype(np.uint8), cv2.COLOR_RGB2BGR)
 
         if outscale is not None and abs(outscale - s) > 1e-6:
