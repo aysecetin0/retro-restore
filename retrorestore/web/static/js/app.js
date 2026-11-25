@@ -109,7 +109,8 @@ function renderJob(j) {
   $("#progBar").style.width = `${Math.round((j.progress || 0) * 100)}%`;
   const st = { queued: "Sırada", running: "İşleniyor", done: "Tamamlandı", error: "Hata", cancelled: "İptal edildi" }[j.status];
   const pos = j.status === "queued" && j.queue_position ? ` (sırada ${j.queue_position}.)` : "";
-  $("#progMsg").textContent = `${st}${pos} · ${j.message || ""}${j.elapsed ? ` · ${j.elapsed} sn` : ""}`;
+  const msg = j.message && j.message !== st ? ` · ${j.message}` : "";
+  $("#progMsg").textContent = `${st}${pos}${msg}${j.elapsed ? ` · ${j.elapsed} sn` : ""}`;
   const warns = (j.trace?.warnings || []).map((w) => `<div class="warn">⚠ ${esc(w)}</div>`).join("");
   $("#warnings").innerHTML = warns + (j.error ? `<div class="error">İşlem başarısız oldu: ${esc(j.error)}</div>` : "");
   if (j.status !== "done") return;
