@@ -166,8 +166,17 @@ python scripts/evaluate.py --prefix div2k_
 - PSNR ve SSIM: Y kanalında, kenarlardan 4 piksel kırpılarak hesaplanır · LPIPS: `pip install lpips` ile
 - GT olmayan örnekler: keskinlik (Laplacian varyansı), gürültü σ (Immerkær), renk zenginliği
 
-> **Not:** `dataset/results/` klasörü boş gelir. Sonuçlar, modeller indirildikten sonra **kendi donanımınızda**
-> `scripts/evaluate.py` çalıştırılarak üretilir. Böylece rapordaki sayılar ile ölçülen değerler birebir aynı olur.
+### Sonuçlar (DIV2K, 100 görüntü, 400 test çifti, Tesla T4)
+
+| Grup | Bicubic LPIPS ↓ | FSRCNN LPIPS ↓ | **Real-ESRGAN** LPIPS ↓ (en iyi model) |
+|---|---:|---:|---:|
+| bicubic_x4 | 0.439 | 0.274 | **0.229** (x4plus) |
+| realworld_x4 | 0.678 | 0.548 | **0.297** (x4plus) |
+| realworld_x2 | 0.542 | 0.527 | **0.208** (x2plus) |
+| old_photo | 0.708 | 0.694 | **0.680** (General v3) |
+
+Real-ESRGAN, gerçekçi bozulmada algısal hatayı bicubic'e göre **%56–62** azaltıyor. Tam tablolar (PSNR, SSIM, süre)
+ve yorum: [`docs/05_sonuclar.md`](docs/05_sonuclar.md).
 
 Ayrıntılar: [`docs/03_veri_seti.md`](docs/03_veri_seti.md)
 
@@ -219,6 +228,7 @@ retro-restore/
 │   ├── 02_yontem_karsilastirma.md
 │   ├── 03_veri_seti.md
 │   ├── 04_arka_plan_akisi.md
+│   ├── 05_sonuclar.md            ← DIV2K deney sonuçları ve yorum
 │   └── rapor_kapagi.md           ← rapor kapağı ve proje künyesi
 └── tests/test_pipeline.py        ← birim, API, güvenlik ve video senkronu testleri
 ```

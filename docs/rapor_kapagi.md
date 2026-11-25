@@ -52,6 +52,8 @@
 | Video | FFmpeg ile CFR kare çıkarma, kare kare iyileştirme, aynı fps ile H.264 kodlama ve orijinal ses (senkron korunur) |
 | Veri seti | 6 GT görüntü, 28 bozulmuş–GT çifti (bicubic_x4, realworld_x4, realworld_x2, old_photo, grayscale), senkron işaretçili test videosu; seed = 2026 |
 | Metrikler | PSNR, SSIM (Y kanalı), LPIPS; referanssız: keskinlik, gürültü σ, renk zenginliği |
+| Büyük ölçekli test | DIV2K doğrulama seti: 100 görüntü × 4 bozulma grubu = 400 test çifti, 7 yöntem, Tesla T4 |
+| Ana bulgu | Real-ESRGAN gerçekçi bozulmada algısal hatayı (LPIPS) bicubic'e göre %56–62 azaltıyor |
 | Yazılım | Python 3.10+, PyTorch, OpenCV, FFmpeg, Flask, saf HTML/CSS/JS |
 | Donanım | CPU, NVIDIA CUDA (FP16) veya Apple MPS — otomatik seçim |
 | Arayüz | Web: yükleme, parametre seçimi, önce/sonra kaydırıcı, adım adım arka plan akışı, yöntem karşılaştırma, veri seti görüntüleyici, indirme |
@@ -62,7 +64,7 @@
 3. Sistem mimarisi → `docs/01_mimari.md`
 4. Veri seti ve deney düzeni → `docs/03_veri_seti.md`
 5. Uygulama ayrıntıları ve arka plan akışı → `docs/04_arka_plan_akisi.md`
-6. Deneysel sonuçlar → `dataset/results/summary.md` ve `grid_*.jpg` (`python scripts/evaluate.py` ile üretilir)
+6. Deneysel sonuçlar → `docs/05_sonuclar.md` (DIV2K, 400 test çifti) + not defterindeki grafik ve ızgaralar
 7. Web arayüzü ekran görüntüleri
 8. Sınırlılıklar ve gelecek çalışmalar
 9. Kaynaklar

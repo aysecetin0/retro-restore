@@ -1,0 +1,272 @@
+{
+  "created": "2026-11-25 18:54 UTC",
+  "device": "cuda (Tesla T4)",
+  "n_images": 400,
+  "n_unique": 100,
+  "dataset": "DIV2K doğrulama seti (100 görüntü, 768 px'e indirgenmiş)",
+  "prefix": "div2k_",
+  "methods": [
+    "bicubic",
+    "lanczos",
+    "classical",
+    "fsrcnn",
+    "realesr-general-x4v3",
+    "RealESRGAN_x4plus",
+    "RealESRGAN_x2plus"
+  ],
+  "summary": [
+    {
+      "group": "bicubic_x4",
+      "label": "FSRCNN (CNN)",
+      "psnr": 24.396,
+      "ssim": 0.7189,
+      "lpips": 0.2741,
+      "seconds": 0.0368,
+      "n": 100
+    },
+    {
+      "group": "bicubic_x4",
+      "label": "Bicubic",
+      "psnr": 23.781,
+      "ssim": 0.7075,
+      "lpips": 0.4391,
+      "seconds": 0.001,
+      "n": 100
+    },
+    {
+      "group": "bicubic_x4",
+      "label": "Lanczos-4",
+      "psnr": 23.532,
+      "ssim": 0.6945,
+      "lpips": 0.4528,
+      "seconds": 0.0085,
+      "n": 100
+    },
+    {
+      "group": "bicubic_x4",
+      "label": "Klasik (NLM+Lanczos+USM)",
+      "psnr": 22.329,
+      "ssim": 0.6678,
+      "lpips": 0.4927,
+      "seconds": 0.1044,
+      "n": 100
+    },
+    {
+      "group": "bicubic_x4",
+      "label": "Real-ESRGAN General v3",
+      "psnr": 22.321,
+      "ssim": 0.6712,
+      "lpips": 0.2454,
+      "seconds": 0.0838,
+      "n": 100
+    },
+    {
+      "group": "bicubic_x4",
+      "label": "Real-ESRGAN x2plus",
+      "psnr": 22.13,
+      "ssim": 0.6219,
+      "lpips": 0.3545,
+      "seconds": 0.4116,
+      "n": 100
+    },
+    {
+      "group": "bicubic_x4",
+      "label": "Real-ESRGAN x4plus",
+      "psnr": 22.09,
+      "ssim": 0.6476,
+      "lpips": 0.2285,
+      "seconds": 0.5431,
+      "n": 100
+    },
+    {
+      "group": "realworld_x4",
+      "label": "Bicubic",
+      "psnr": 22.998,
+      "ssim": 0.5862,
+      "lpips": 0.6776,
+      "seconds": 0.001,
+      "n": 100
+    },
+    {
+      "group": "realworld_x4",
+      "label": "Lanczos-4",
+      "psnr": 22.998,
+      "ssim": 0.586,
+      "lpips": 0.6802,
+      "seconds": 0.0083,
+      "n": 100
+    },
+    {
+      "group": "realworld_x4",
+      "label": "FSRCNN (CNN)",
+      "psnr": 22.942,
+      "ssim": 0.5842,
+      "lpips": 0.548,
+      "seconds": 0.0299,
+      "n": 100
+    },
+    {
+      "group": "realworld_x4",
+      "label": "Klasik (NLM+Lanczos+USM)",
+      "psnr": 22.8,
+      "ssim": 0.5828,
+      "lpips": 0.6016,
+      "seconds": 0.1036,
+      "n": 100
+    },
+    {
+      "group": "realworld_x4",
+      "label": "Real-ESRGAN General v3",
+      "psnr": 22.395,
+      "ssim": 0.5916,
+      "lpips": 0.3513,
+      "seconds": 0.0821,
+      "n": 100
+    },
+    {
+      "group": "realworld_x4",
+      "label": "Real-ESRGAN x2plus",
+      "psnr": 22.094,
+      "ssim": 0.5823,
+      "lpips": 0.3835,
+      "seconds": 0.4223,
+      "n": 100
+    },
+    {
+      "group": "realworld_x4",
+      "label": "Real-ESRGAN x4plus",
+      "psnr": 21.441,
+      "ssim": 0.5666,
+      "lpips": 0.2969,
+      "seconds": 0.5803,
+      "n": 100
+    },
+    {
+      "group": "realworld_x2",
+      "label": "Real-ESRGAN General v3",
+      "psnr": 24.633,
+      "ssim": 0.6854,
+      "lpips": 0.3359,
+      "seconds": 0.1589,
+      "n": 100
+    },
+    {
+      "group": "realworld_x2",
+      "label": "Bicubic",
+      "psnr": 24.146,
+      "ssim": 0.6478,
+      "lpips": 0.5423,
+      "seconds": 0.0011,
+      "n": 100
+    },
+    {
+      "group": "realworld_x2",
+      "label": "Lanczos-4",
+      "psnr": 24.111,
+      "ssim": 0.6457,
+      "lpips": 0.5403,
+      "seconds": 0.0094,
+      "n": 100
+    },
+    {
+      "group": "realworld_x2",
+      "label": "FSRCNN (CNN)",
+      "psnr": 24.083,
+      "ssim": 0.6494,
+      "lpips": 0.5267,
+      "seconds": 0.1561,
+      "n": 100
+    },
+    {
+      "group": "realworld_x2",
+      "label": "Klasik (NLM+Lanczos+USM)",
+      "psnr": 23.837,
+      "ssim": 0.6344,
+      "lpips": 0.5084,
+      "seconds": 0.3288,
+      "n": 100
+    },
+    {
+      "group": "realworld_x2",
+      "label": "Real-ESRGAN x2plus",
+      "psnr": 23.571,
+      "ssim": 0.6692,
+      "lpips": 0.2082,
+      "seconds": 0.5604,
+      "n": 100
+    },
+    {
+      "group": "realworld_x2",
+      "label": "Real-ESRGAN x4plus",
+      "psnr": 23.073,
+      "ssim": 0.6583,
+      "lpips": 0.2489,
+      "seconds": 1.1268,
+      "n": 100
+    },
+    {
+      "group": "old_photo",
+      "label": "FSRCNN (CNN)",
+      "psnr": 14.716,
+      "ssim": 0.4898,
+      "lpips": 0.6942,
+      "seconds": 0.1363,
+      "n": 100
+    },
+    {
+      "group": "old_photo",
+      "label": "Bicubic",
+      "psnr": 14.664,
+      "ssim": 0.4829,
+      "lpips": 0.7081,
+      "seconds": 0.0011,
+      "n": 100
+    },
+    {
+      "group": "old_photo",
+      "label": "Lanczos-4",
+      "psnr": 14.648,
+      "ssim": 0.4782,
+      "lpips": 0.7146,
+      "seconds": 0.0101,
+      "n": 100
+    },
+    {
+      "group": "old_photo",
+      "label": "Real-ESRGAN x2plus",
+      "psnr": 14.593,
+      "ssim": 0.4648,
+      "lpips": 0.7075,
+      "seconds": 0.5456,
+      "n": 100
+    },
+    {
+      "group": "old_photo",
+      "label": "Real-ESRGAN x4plus",
+      "psnr": 14.53,
+      "ssim": 0.4779,
+      "lpips": 0.6988,
+      "seconds": 1.0991,
+      "n": 100
+    },
+    {
+      "group": "old_photo",
+      "label": "Real-ESRGAN General v3",
+      "psnr": 14.488,
+      "ssim": 0.4886,
+      "lpips": 0.6801,
+      "seconds": 0.1421,
+      "n": 100
+    },
+    {
+      "group": "old_photo",
+      "label": "Klasik (NLM+Lanczos+USM)",
+      "psnr": 14.312,
+      "ssim": 0.4476,
+      "lpips": 0.7319,
+      "seconds": 0.3341,
+      "n": 100
+    }
+  ],
+  "grids": []
+}
