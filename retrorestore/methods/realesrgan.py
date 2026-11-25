@@ -118,8 +118,9 @@ class RealESRGANer:
     # ------------------------------------------------------------------
     def _to_tensor(self, img_bgr: np.ndarray):
         x = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
-        t = torch.from_numpy(np.ascontiguousarray(x.transpose(2, 0, 1)))[None]
-        return t.half() if self.half else t
+        # CPU'da float32 tutulur (half + reflect pad CPU'da desteklenmeyebilir);
+        # FP16'ya dönüşüm her döşeme GPU'ya taşınırken yapılır.
+        return torch.from_numpy(np.ascontiguousarray(x.transpose(2, 0, 1)))[None]
 
     @staticmethod
     def _pad(t, right: int, bottom: int):
@@ -130,7 +131,8 @@ class RealESRGANer:
         return F.pad(t, (0, right, 0, bottom), mode=mode)
 
     def _run(self, t):
-        return self.model(t.to(self.device)).float().cpu()
+        dtype = torch.float16 if self.half else torch.float32
+        return self.model(t.to(self.device, dtype=dtype)).float().cpu()
 
     def _tile_process(self, img, tile: int):
         b, c, h, w = img.shape
