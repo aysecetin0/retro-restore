@@ -4,6 +4,11 @@
 
 **Depo:** https://github.com/aysecetin0/retro-restore
 
+### ▶ Kurulum yapmadan hemen dene (Google Colab, ücretsiz GPU)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aysecetin0/retro-restore/blob/main/RetroRestore_Colab.ipynb)
+
+Linke tıklayın → **Çalışma zamanı → Tümünü çalıştır** → en altta çıkan linkten web sitesini açın.
+
 | | |
 |---|---|
 | **Görüntü** | Gürültü ve JPEG artefaktı giderme, detay netleştirme, 1–4× süper çözünürlük, çizik/toz giderme |
