@@ -289,12 +289,15 @@ def main():
     ap.add_argument("--limit", type=int, default=20)
     ap.add_argument("--seed", type=int, default=2026)
     ap.add_argument("--no-video", action="store_true")
+    ap.add_argument("--prefix", default="", help="görüntü adlarına önek (ör. div2k_)")
+    ap.add_argument("--append", action="store_true",
+                    help="mevcut manifest.json'u silmeden ekle (aynı önekli eski kayıtlar yenilenir)")
     a = ap.parse_args()
 
     rng = np.random.default_rng(a.seed)
     if a.source:
         files = sorted(p for p in a.source.iterdir() if p.suffix.lower() in (".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff"))[: a.limit]
-        sources = {p.stem: imread(p) for p in files}
+        sources = {f"{a.prefix}{p.stem}": imread(p) for p in files}
     else:
         sources = builtin_sources()
 
@@ -323,17 +326,26 @@ def main():
                           "scale": round(gt.shape[1] / lr.shape[1], 3), "degradations": log})
         print(f"✔ {name}: {gt.shape[1]}x{gt.shape[0]}")
 
-    videos = []
+    old = {}
+    mf = out / "manifest.json"
+    if a.append and mf.exists():
+        old = json.loads(mf.read_text(encoding="utf-8"))
+        keep = [i for i in old.get("images", []) if not (a.prefix and i["name"].startswith(a.prefix))
+                and i["name"] not in sources]
+        items = keep + items
+    videos = old.get("videos", []) if a.append else []
     if not a.no_video:
         vsrc = prep_gt(sources.get("rocket", next(iter(sources.values()))), 1280)
         videos = make_videos(vsrc, out / "videos", rng)
         print(f"✔ {len(videos)} video")
 
+    src_label = f"{a.source.name} ({len(sources)} görüntü)" if a.source else "scikit-image örnekleri (kamu malı / CC0)"
+    sources_all = list(dict.fromkeys((old.get("sources") or ([old["source"]] if old.get("source") else [])) + [src_label])) if a.append else [src_label]
     manifest = {"created": time.strftime("%Y-%m-%d %H:%M"), "seed": a.seed,
-                "source": str(a.source) if a.source else "scikit-image örnekleri (kamu malı / CC0)",
+                "source": " + ".join(sources_all), "sources": sources_all,
                 "groups": GROUP_DESC, "images": items, "videos": videos}
     (out / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Manifesto: {out / 'manifest.json'}  ({len(items)} çift)")
+    print(f"Manifesto: {out / 'manifest.json'}  (toplam {len(items)} çift)")
 
 
 if __name__ == "__main__":

@@ -1,9 +1,9 @@
 # 2 · Yöntem Karşılaştırması ve Seçim Gerekçesi
 
 Bu belge sunumda "Hangi yöntemleri inceledik, neden Real-ESRGAN'ı seçtik?" sorusunu yanıtlamak için hazırlanmıştır.
-Nicel sonuçlar kendi donanımınızda `python scripts/evaluate.py` ile üretilir ve `dataset/results/summary.md`
-dosyasına yazılır. Görsel kanıtlar `dataset/results/grid_*.jpg` dosyalarında ve web arayüzündeki **Yöntem Karşılaştırma**
-sekmesinde bulunur.
+Nicel sonuçlar DIV2K doğrulama seti (100 görüntü, 400 test çifti) üzerinde `python scripts/evaluate.py --prefix div2k_`
+ile üretilir ve `dataset/results/summary.md` dosyasına yazılır. Tablolar, grafikler ve görsel karşılaştırma ızgaraları
+sunum not defterinin (`RetroRestore_Colab.ipynb`) 5. ve 7. bölümlerinde gösterilir.
 
 ## 2.1 Problem: eski fotoğraf ve videolarda "kör" (blind) bozulma
 

@@ -39,7 +39,7 @@ python scripts/make_dataset.py --source /yol/DIV2K_valid_HR --max-side 768 --lim
 ```
 
 ## 3.4 Bozulma zincirleri
-Her örnekteki zincirin tamamı `manifest.json` dosyasında ve web arayüzünün **Veri Seti** sekmesinde görünür.
+Her örnekteki zincirin tamamı `manifest.json` dosyasında ve sunum not defterinin 2. bölümünde görünür.
 Örnek:
 
 ```json
@@ -65,10 +65,23 @@ Her örnekteki zincirin tamamı `manifest.json` dosyasında ve web arayüzünün
 1 kHz bip vardır. İşlenmiş videoda flaş ile bip hâlâ çakışıyorsa senkron korunmuştur. Otomatik test
 (`tests/test_pipeline.py::test_api_video_job_keeps_audio_and_fps`) fps, süre ve ses akışının korunduğunu doğrular.
 
-## 3.5 Tekrar üretilebilirlik
+## 3.5 Büyük ölçekli test seti: DIV2K
+Depodaki küçük set hızlı deneme ve gösterim içindir. Nicel sonuçlar için literatürün standart test seti **DIV2K doğrulama
+seti** (Agustsson & Timofte, NTIRE 2017; 100 adet 2K görüntü) kullanılır:
+
+```bash
+python scripts/download_benchmarks.py
+python scripts/make_dataset.py --source benchmarks/DIV2K_valid_HR --prefix div2k_ --append --no-video --max-side 768 --limit 100
+python scripts/evaluate.py --prefix div2k_
+```
+
+Her görüntüden aynı bozulma zincirleriyle 5 sürüm üretilir → 4 SR grubunda **400 test çifti** (+100 renklendirme).
+Görüntüler 768 px uzun kenara indirgenir (T4 GPU'da tüm değerlendirme ~15–25 dk). Sonuçlar `dataset/results/` klasörüne yazılır.
+
+## 3.6 Tekrar üretilebilirlik
 Tüm rastgele bozulmalar `--seed 2026` ile belirlenir. Aynı komut her zaman aynı veri setini üretir.
 
-## 3.6 Değerlendirme protokolü
+## 3.7 Değerlendirme protokolü
 - PSNR ve SSIM, **Y (luma) kanalında**, kenarlardan 4 piksel kırpılarak hesaplanır (SR literatüründeki yaygın protokol).
 - Yöntem çıktısı GT boyutuna eşitlenir (gerekirse bicubic ile).
 - LPIPS (AlexNet) için `pip install lpips` gerekir; kurulu değilse sütun boş kalır.

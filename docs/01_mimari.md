@@ -66,7 +66,7 @@ Tüm limitler ortam değişkeniyle değiştirilebilir, örneğin `RR_MAX_VIDEO_S
 | Apple M serisi (MPS) | 1–3 sn | 5–10 sn |
 | 4–8 çekirdekli CPU | 5–15 sn | 60–120 sn |
 
-> Bu değerler yaklaşık tahminlerdir. Kendi donanımınızdaki gerçek süreler arayüzün "Arka plan akışı" panelinde ve
+> Bu değerler yaklaşık tahminlerdir. Kendi donanımınızdaki gerçek süreler sunum not defterinin 3. bölümünde ve
 > `scripts/evaluate.py` çıktısında görünür. Video için kare başına süre × kare sayısı formülü kullanılır.
 > Örneğin 10 sn, 24 fps, 2× bir klip CPU'da 240 kare × ~2 sn ≈ 8 dakika sürer. Bu yüzden önizleme modu vardır.
 

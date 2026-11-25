@@ -12,207 +12,95 @@
     <span class="logo">◐</span>
     <div>
       <h1>RetroRestore</h1>
-      <p>Eski fotoğraf ve videoları Real-ESRGAN ile iyileştirme</p>
+      <p>Eski fotoğraf ve videolarınızı yapay zekâ ile netleştirin, büyütün ve renklendirin</p>
     </div>
   </div>
-  <nav class="tabs" role="tablist">
-    <button class="tab active" data-tab="enhance">İyileştir</button>
-    <button class="tab" data-tab="compare">Yöntem Karşılaştırma</button>
-    <button class="tab" data-tab="dataset">Veri Seti</button>
-    <button class="tab" data-tab="how">Arka Plan &amp; Mimari</button>
-    <button class="tab" data-tab="history">İşler</button>
-  </nav>
   <div id="sysBadge" class="sys-badge" title="Donanım durumu">…</div>
 </header>
 
 <main>
-  <!-- ======================= İYİLEŞTİR ======================= -->
-  <section id="tab-enhance" class="panel active">
-    <div class="grid-2">
-      <div class="card">
-        <h2>1 · Girdi</h2>
-        <label id="dropzone" class="dropzone">
-          <input type="file" id="fileInput" accept="image/*,video/*" hidden>
-          <span class="dz-icon">⇪</span>
-          <span><b>Fotoğraf veya video sürükleyin</b> ya da tıklayıp seçin</span>
-          <small id="dzHint">JPG, PNG, TIFF, WEBP · MP4, MOV, AVI, MKV</small>
-        </label>
-        <div class="or">veya veri setinden örnek seçin</div>
-        <select id="sampleSelect"><option value="">— örnek seçin —</option></select>
-        <div id="inputPreview" class="input-preview"></div>
-      </div>
+  <div class="grid-2">
+    <div class="card">
+      <h2>1 · Dosyanızı yükleyin</h2>
+      <label id="dropzone" class="dropzone">
+        <input type="file" id="fileInput" accept="image/*,video/*" hidden>
+        <span class="dz-icon">⇪</span>
+        <span><b>Fotoğraf veya video sürükleyin</b> ya da tıklayıp seçin</span>
+        <small id="dzHint">JPG, PNG, TIFF, WEBP · MP4, MOV, AVI, MKV</small>
+      </label>
+      <div id="inputPreview" class="input-preview"></div>
+    </div>
 
-      <div class="card">
-        <h2>2 · İşlem ayarları</h2>
-        <form id="optsForm" class="opts">
-          <label>Süper çözünürlük yöntemi
+    <div class="card">
+      <h2>2 · Ayarlar</h2>
+      <form id="optsForm" class="opts">
+        <label>Büyütme oranı <output id="scaleOut">2×</output>
+          <input type="range" name="scale" min="1" max="4" step="1" value="2">
+        </label>
+        <label>Gürültü temizleme <output id="denoiseOut">0.50</output>
+          <input type="range" name="denoise" min="0" max="1" step="0.05" value="0.5">
+        </label>
+        <label>Renk
+          <select name="color_mode">
+            <option value="auto">Otomatik (siyah-beyazsa renklendir, renkliyse canlandır)</option>
+            <option value="restore">Solmuş renkleri canlandır</option>
+            <option value="colorize">Siyah-beyazı renklendir</option>
+            <option value="none">Renge dokunma</option>
+          </select>
+        </label>
+        <label>Renk yoğunluğu <output id="colorOut">0.80</output>
+          <input type="range" name="color_strength" min="0" max="1.5" step="0.05" value="0.8">
+        </label>
+        <label class="chk"><input type="checkbox" name="scratch_removal"> Çizik ve toz lekelerini temizle</label>
+        <details class="adv">
+          <summary>Gelişmiş</summary>
+          <label>Yöntem
             <select name="sr_method">
-              <option value="realesrgan">Real-ESRGAN (derin öğrenme)</option>
-              <option value="classical">Klasik (NLM + Lanczos + Unsharp)</option>
-              <option value="lanczos">Lanczos interpolasyon</option>
-              <option value="bicubic">Bicubic interpolasyon</option>
-              <option value="none">Büyütme yok (yalnızca onarım)</option>
+              <option value="realesrgan">Real-ESRGAN (önerilen)</option>
+              <option value="classical">Klasik filtreler</option>
+              <option value="lanczos">Lanczos</option>
+              <option value="bicubic">Bicubic</option>
+              <option value="none">Büyütme yok, yalnızca onarım</option>
             </select>
           </label>
           <label>Model
-            <select name="model" id="modelSelect"><option value="auto">Otomatik (donanıma göre)</option></select>
+            <select name="model" id="modelSelect"><option value="auto">Otomatik</option></select>
           </label>
-          <label>Ölçek faktörü <output id="scaleOut">2×</output>
-            <input type="range" name="scale" min="1" max="4" step="1" value="2">
+          <label>Keskinleştirme <output id="sharpOut">0.00</output>
+            <input type="range" name="sharpen" min="0" max="1.5" step="0.05" value="0">
           </label>
-          <label>Gürültü giderme gücü <output id="denoiseOut">0.50</output>
-            <input type="range" name="denoise" min="0" max="1" step="0.05" value="0.5">
+          <label>Çıktı biçimi
+            <select name="output_format"><option>png</option><option>jpg</option><option>webp</option></select>
           </label>
-          <label>Renk işlemi
-            <select name="color_mode">
-              <option value="auto">Otomatik (S/B → renklendir, renkli → canlandır)</option>
-              <option value="restore">Renk restorasyonu / canlandırma</option>
-              <option value="colorize">Renklendirme (siyah-beyaz için)</option>
-              <option value="none">Renk işlemi yok</option>
-            </select>
-          </label>
-          <label>Renk gücü <output id="colorOut">0.80</output>
-            <input type="range" name="color_strength" min="0" max="1.5" step="0.05" value="0.8">
-          </label>
-          <details class="adv">
-            <summary>Gelişmiş</summary>
-            <label class="chk"><input type="checkbox" name="scratch_removal"> Çizik / toz giderme (eski fotoğraf)</label>
-            <label>Çizik hassasiyeti <output id="scratchOut">0.50</output>
-              <input type="range" name="scratch_sensitivity" min="0.05" max="1" step="0.05" value="0.5">
+          <div class="video-only">
+            <label>Video: yalnızca ilk N saniyeyi işle (0 = tümü)
+              <input type="number" name="preview_seconds" value="0" min="0" step="1">
             </label>
-            <label class="chk"><input type="checkbox" name="pre_denoise"> SR öncesi klasik ön denoise (NLM)</label>
-            <label>Keskinleştirme <output id="sharpOut">0.00</output>
-              <input type="range" name="sharpen" min="0" max="1.5" step="0.05" value="0">
-            </label>
-            <label>Döşeme boyutu (tile, -1 = otomatik)
-              <input type="number" name="tile" value="-1" min="-1" max="2048" step="32">
-            </label>
-            <label>Çıktı biçimi (görüntü)
-              <select name="output_format"><option>png</option><option>jpg</option><option>webp</option></select>
-            </label>
-            <div class="video-only">
-              <label>Video: yalnızca ilk N saniye (önizleme, 0 = tümü)
-                <input type="number" name="preview_seconds" value="0" min="0" step="1">
-              </label>
-              <label>Renklendirme zamansal yumuşatma <output id="tempOut">0.60</output>
-                <input type="range" name="temporal_smoothing" min="0" max="0.95" step="0.05" value="0.6">
-              </label>
-            </div>
-          </details>
-          <button type="submit" id="runBtn" class="btn primary" disabled>İyileştir</button>
-        </form>
+          </div>
+        </details>
+        <button type="submit" id="runBtn" class="btn primary" disabled>İyileştir</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="jobCard" class="card hidden">
+    <div class="job-head">
+      <h2>3 · Sonuç</h2>
+      <div class="job-actions">
+        <button id="cancelBtn" class="btn ghost">İptal</button>
+        <a id="downloadBtn" class="btn primary hidden" href="#">Sonucu indir</a>
       </div>
     </div>
-
-    <div id="jobCard" class="card hidden">
-      <div class="job-head">
-        <h2>3 · Sonuç</h2>
-        <div class="job-actions">
-          <button id="cancelBtn" class="btn ghost">İptal</button>
-          <a id="downloadBtn" class="btn primary hidden" href="#">Sonucu indir</a>
-        </div>
-      </div>
-      <div class="progress"><div id="progBar"></div></div>
-      <p id="progMsg" class="muted">—</p>
-      <div id="warnings"></div>
-      <div id="resultView"></div>
-      <div id="metricsView"></div>
-      <h3>Arka plan akışı <small class="muted">— boru hattının her adımı, süresi ve ara çıktısı</small></h3>
-      <ol id="traceView" class="trace"></ol>
-    </div>
-  </section>
-
-  <!-- ======================= KARŞILAŞTIRMA ======================= -->
-  <section id="tab-compare" class="panel">
-    <div class="card">
-      <h2>Yöntem karşılaştırma</h2>
-      <p class="muted">Aynı girdiyi tüm yöntemlerden geçirir. Veri setinden ground-truth'lu bir örnek seçerseniz
-        PSNR / SSIM hesaplanır; gerçek eski fotoğraflarda referanssız ölçüler (keskinlik, gürültü σ) gösterilir.</p>
-      <div class="row">
-        <select id="benchSample"><option value="">— veri setinden örnek —</option></select>
-        <span class="muted">veya</span>
-        <input type="file" id="benchFile" accept="image/*">
-        <label class="inline">Ölçek
-          <select id="benchScale"><option>2</option><option>3</option><option selected>4</option></select>
-        </label>
-      </div>
-      <div id="methodChecks" class="checks"></div>
-      <button id="benchBtn" class="btn primary">Karşılaştırmayı çalıştır</button>
-      <div class="progress"><div id="benchBar"></div></div>
-      <p id="benchMsg" class="muted"></p>
-      <div id="benchResult"></div>
-    </div>
-    <div class="card">
-      <h2>Veri seti üzerinde toplu değerlendirme <small class="muted">(scripts/evaluate.py)</small></h2>
-      <div id="reportView" class="muted">Yükleniyor…</div>
-    </div>
-  </section>
-
-  <!-- ======================= VERİ SETİ ======================= -->
-  <section id="tab-dataset" class="panel">
-    <div class="card">
-      <h2>Test / doğrulama veri seti</h2>
-      <p class="muted">Ground-truth (temiz yüksek çözünürlük) görüntülerden, kayıtlı ve tekrar üretilebilir
-        (seed'li) bozulmalarla türetilmiş örnekler. Her kartta uygulanan bozulma zinciri görünür.
-        Oluşturmak için: <code>python scripts/make_dataset.py</code></p>
-      <div id="datasetView"></div>
-    </div>
-  </section>
-
-  <!-- ======================= MİMARİ ======================= -->
-  <section id="tab-how" class="panel">
-    <div class="card">
-      <h2>Boru hattı (pipeline)</h2>
-      <div class="flow">
-        <div class="node pre">Girdi<br><small>görüntü / video</small></div><span>→</span>
-        <div class="node pre">Ön işleme<br><small>doğrulama · alfa · limit · analiz</small></div><span>→</span>
-        <div class="node pre">Çizik/toz<br><small>morfoloji + inpainting</small></div><span>→</span>
-        <div class="node inf">Süper çözünürlük<br><small>Real-ESRGAN · döşemeli</small></div><span>→</span>
-        <div class="node post">Renk<br><small>restorasyon / renklendirme</small></div><span>→</span>
-        <div class="node post">Son işleme<br><small>keskinlik · kayıt</small></div>
-      </div>
-      <div class="flow video">
-        <div class="node vid">ffprobe<br><small>fps · süre · ses</small></div><span>→</span>
-        <div class="node vid">Kare çıkarma<br><small>CFR · PNG</small></div><span>→</span>
-        <div class="node inf">Her kare → görüntü boru hattı<br><small>renk kararı + ab geçmişi taşınır</small></div><span>→</span>
-        <div class="node vid">Birleştirme<br><small>H.264 + orijinal ses (AAC)</small></div>
-      </div>
-    </div>
-    <div class="grid-2">
-      <div class="card"><h2>Sistem</h2><div id="sysView"></div></div>
-      <div class="card"><h2>Modeller</h2><div id="modelsView"></div></div>
-    </div>
-    <div class="card">
-      <h2>Neden Real-ESRGAN?</h2>
-      <table class="tbl">
-        <thead><tr><th>Yöntem</th><th>Yaklaşım</th><th>Gerçek bozulmaya dayanıklılık</th><th>Maliyet</th><th>Zayıf yön</th></tr></thead>
-        <tbody>
-          <tr><td>Bicubic / Lanczos</td><td>Sabit çekirdekli interpolasyon</td><td>Yok — gürültü/JPEG büyür</td><td>Çok düşük</td><td>Bulanık, yeni detay yok</td></tr>
-          <tr><td>NLM / Bilateral + USM</td><td>El yapımı önsel (prior)</td><td>Orta (yalnız gürültü)</td><td>Düşük</td><td>Detay ile gürültüyü birlikte siler</td></tr>
-          <tr><td>SRCNN / FSRCNN</td><td>Sığ CNN, L2 kaybı</td><td>Düşük — bicubic bozulmayla eğitilmiş</td><td>Düşük-orta</td><td>Pürüzsüz/bulanık çıktı</td></tr>
-          <tr><td>EDSR</td><td>Derin ResNet, L1 kaybı</td><td>Düşük — yüksek PSNR ama sentetik</td><td>Yüksek</td><td>Gerçek gürültüyü "keskinleştirir"</td></tr>
-          <tr><td>ESRGAN</td><td>RRDB + GAN + algısal kayıp</td><td>Düşük-orta</td><td>Yüksek</td><td>Basit bozulma modeli → artefakt</td></tr>
-          <tr class="hl"><td>Real-ESRGAN</td><td>RRDB/SRVGG + U-Net SN ayırt edici + <b>yüksek dereceli bozulma sentezi</b></td><td><b>Yüksek</b> — bulanıklık, gürültü, JPEG, sinc, yeniden boyutlandırma</td><td>Orta (compact model: düşük)</td><td>Çok ağır hasarda doku "uydurabilir"</td></tr>
-        </tbody>
-      </table>
-      <p class="muted">Ayrıntılı karşılaştırma ve sunum notları: <code>docs/02_yontem_karsilastirma.md</code></p>
-    </div>
-  </section>
-
-  <!-- ======================= İŞLER ======================= -->
-  <section id="tab-history" class="panel">
-    <div class="card">
-      <h2>İşler</h2>
-      <p class="muted">Tüm işler sırayla tek bir işçi tarafından çalıştırılır (GPU/RAM güvenliği). Her işin klasörü:
-        <code>outputs/jobs/&lt;id&gt;/</code> — <code>trace.json</code>, <code>job.json</code>, <code>steps/</code></p>
-      <div id="historyView"></div>
-    </div>
-  </section>
+    <div class="progress"><div id="progBar"></div></div>
+    <p id="progMsg" class="muted">—</p>
+    <div id="warnings"></div>
+    <div id="resultView"></div>
+    <div id="metricsView"></div>
+  </div>
 </main>
 
 <footer class="foot">
-  RetroRestore · Görüntü İşleme Dersi Projesi ·
-  <a href="https://github.com/aysecetin0/retro-restore" target="_blank" rel="noopener">github.com/aysecetin0/retro-restore</a>
+  RetroRestore · <a href="https://github.com/aysecetin0/retro-restore" target="_blank" rel="noopener">github.com/aysecetin0/retro-restore</a>
 </footer>
 
 <script src="/static/js/app.js"></script>

@@ -85,13 +85,14 @@ def lpips_distance(pred: np.ndarray, gt: np.ndarray) -> float | None:
         import torch  # type: ignore
     except Exception:
         return None
+    dev = "cuda" if torch.cuda.is_available() else "cpu"
     if _lpips_model is None:
-        _lpips_model = lpips.LPIPS(net="alex", verbose=False)
+        _lpips_model = lpips.LPIPS(net="alex", verbose=False).to(dev).eval()
     p, g = _align(pred, gt, 0)
 
     def t(x):
         x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB).astype(np.float32) / 127.5 - 1
-        return torch.from_numpy(x).permute(2, 0, 1)[None]
+        return torch.from_numpy(x).permute(2, 0, 1)[None].to(dev)
 
     with torch.no_grad():
         return float(_lpips_model(t(p), t(g)).item())

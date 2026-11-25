@@ -37,6 +37,8 @@ def main():
     ap.add_argument("--groups", nargs="*", default=list(SR_GROUPS))
     ap.add_argument("--methods", nargs="*")
     ap.add_argument("--grids", type=int, default=2, help="grup başına kaydedilecek ızgara sayısı")
+    ap.add_argument("--prefix", default="", help="yalnızca bu önekle başlayan görüntüler (ör. div2k_)")
+    ap.add_argument("--limit", type=int, default=0, help="grup başına en fazla N görüntü (0 = hepsi)")
     a = ap.parse_args()
 
     ds = settings.dataset_dir
@@ -48,7 +50,15 @@ def main():
 
     rows, grids = [], []
     grid_count = defaultdict(int)
-    items = [i for i in manifest["images"] if i["group"] in a.groups]
+    items = [i for i in manifest["images"] if i["group"] in a.groups and i["name"].startswith(a.prefix)]
+    if a.limit:
+        per = defaultdict(int)
+        sel = []
+        for i in items:
+            if per[i["group"]] < a.limit:
+                sel.append(i); per[i["group"]] += 1
+        items = sel
+    t_start = time.time()
     for k, it in enumerate(items, 1):
         lr = imread(ds / it["degraded"])[:, :, :3]
         gt = imread(ds / it["gt"])[:, :, :3]
@@ -64,7 +74,8 @@ def main():
             (tmp / res["grid"]).replace(out / name)
             grids.append(name)
             grid_count[it["group"]] += 1
-        print(f"[{k}/{len(items)}] {it['group']}/{it['name']} ✓")
+        el = time.time() - t_start
+        print(f"[{k}/{len(items)}] {it['group']}/{it['name']} ✓  (kalan ~{el / k * (len(items) - k) / 60:.1f} dk)", flush=True)
     import shutil
     shutil.rmtree(out / "_tmp", ignore_errors=True)
 
@@ -88,7 +99,8 @@ def main():
     info = get_device_info()
     (out / "metrics.json").write_text(json.dumps({
         "created": time.strftime("%Y-%m-%d %H:%M"), "device": f"{info.device} ({info.device_name})",
-        "n_images": len(items), "methods": methods, "summary": summary, "grids": grids,
+        "n_images": len(items), "n_unique": len({i['name'] for i in items}), "methods": methods,
+        "dataset": manifest.get("source", ""), "prefix": a.prefix, "summary": summary, "grids": grids,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     md = ["| Grup | Yöntem | PSNR ↑ | SSIM ↑ | LPIPS ↓ | Süre (sn) |", "|---|---|---:|---:|---:|---:|"]
@@ -96,7 +108,8 @@ def main():
         md.append(f"| {s['group']} | {s['label']} | {s['psnr']:.2f} | {s['ssim']:.4f} | "
                   f"{s['lpips'] if s['lpips'] is not None else '—'} | {s['seconds']:.3f} |")
     (out / "summary.md").write_text(
-        f"# Değerlendirme sonuçları\n\nCihaz: {info.device} · {time.strftime('%Y-%m-%d %H:%M')}\n\n" + "\n".join(md) + "\n",
+        f"# Değerlendirme sonuçları\n\nCihaz: {info.device} ({info.device_name}) · {time.strftime('%Y-%m-%d %H:%M')}\n"
+        f"Veri: {manifest.get('source', '')} · {len({i['name'] for i in items})} farklı görüntü, {len(items)} bozulmuş–GT çifti\n\n" + "\n".join(md) + "\n",
         encoding="utf-8")
     print("\n" + "\n".join(md))
     print(f"\nKaydedildi: {out}")

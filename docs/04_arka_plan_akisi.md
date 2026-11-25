@@ -4,9 +4,9 @@ Projenin önemli bir hedefi, "kara kutu" görünümünden kaçınmak ve **her ad
 
 ## 4.1 Üç yerden izlenebilir
 
-1. **Web arayüzü → "Arka plan akışı" paneli:** İş çalışırken her adım canlı olarak listelenir. Her adımda aşama
-   (ön işleme, çıkarım, son işleme, video), açıklama, parametreler, girdi ve çıktı boyutu, süre ve **ara görüntü**
-   gösterilir. Model yoksa veya klasik yönteme düşüldüyse adım turuncu renkte "fallback" olarak işaretlenir.
+1. **Sunum not defteri (`RetroRestore_Colab.ipynb`, bölüm 3 ve 6):** Bir fotoğraf ve bir video boru hattından
+   geçirilir; her adımın aşaması (ön işleme, çıkarım, son işleme, video), parametreleri, süresi ve **ara görüntüsü**
+   tablo ve görsel olarak gösterilir. Model yoksa adım "fallback" olarak işaretlenir.
 2. **İş klasörü:** `outputs/jobs/<iş-id>/`
    ```
    input.png           yüklenen dosya

@@ -7,14 +7,15 @@
 ### ▶ Kurulum yapmadan hemen dene (Google Colab, ücretsiz GPU)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aysecetin0/retro-restore/blob/main/RetroRestore_Colab.ipynb)
 
-Linke tıklayın → **Çalışma zamanı → Tümünü çalıştır** → en altta çıkan linkten web sitesini açın.
+Linke tıklayın → **Çalışma zamanı → Tümünü çalıştır** → 1. bölümde çıkan linkten web sitesini açın. Not defterinin geri kalanı veri setini, arka plan akışını, yöntem karşılaştırmasını ve DIV2K üzerinde büyük ölçekli testi gösterir.
 
 | | |
 |---|---|
 | **Görüntü** | Gürültü ve JPEG artefaktı giderme, detay netleştirme, 1–4× süper çözünürlük, çizik/toz giderme |
 | **Renk** | Soluk renkli fotoğrafta renk canlandırma; siyah-beyaz fotoğrafta otomatik renklendirme |
 | **Video** | Karelere ayırma, kare kare iyileştirme, H.264 ile yeniden birleştirme, **ses senkronu korunur** |
-| **Arayüz** | Yükleme, parametre seçimi, önce/sonra kaydırıcı, canlı **arka plan akışı**, yöntem karşılaştırma, veri seti görüntüleyici |
+| **Arayüz** | Son kullanıcı için sade web sitesi: yükle → ayarla → önce/sonra karşılaştır → indir |
+| **Sunum** | Colab/Jupyter not defteri: veri seti, arka plan akışı, yöntem karşılaştırma, DIV2K üzerinde büyük ölçekli test |
 | **Donanım** | CUDA (FP16), Apple MPS veya CPU otomatik seçilir; PyTorch yoksa bile klasik modda çalışır |
 
 ---
@@ -63,24 +64,25 @@ python run.py                            # → http://127.0.0.1:8000
 
 ## 2. Kullanım
 
-### Web arayüzü
-1. **İyileştir** sekmesinde bir fotoğraf veya video sürükleyin ya da **veri setinden bir örnek** seçin.
-2. Ayarları seçin:
-   - **Süper çözünürlük yöntemi:** Real-ESRGAN / Klasik / Lanczos / Bicubic / yok
-   - **Model:** Otomatik seçim CPU'da hafif modeli, GPU'da x4plus/x2plus modelini kullanır
-   - **Ölçek:** 1×–4× (1× yalnızca onarım yapar)
-   - **Gürültü giderme gücü:** 0–1 (general-x4v3 modelinde DNI ile sürekli ayar)
-   - **Renk işlemi:** Otomatik (S/B ise renklendirir, renkli ise canlandırır) / restorasyon / renklendirme / yok
-   - **Gelişmiş:** çizik giderme, ön denoise, keskinleştirme, döşeme boyutu, video önizleme süresi, zamansal yumuşatma
-3. **İyileştir** düğmesine basın. İlerleme çubuğu ve **Arka plan akışı** panelinde her adımın süresi, parametreleri
-   ve ara görüntüsü canlı olarak görünür.
-4. Önce/sonra kaydırıcısıyla (video için yan yana senkron oynatıcıyla) sonucu karşılaştırın ve **Sonucu indir** düğmesine basın.
+### Web sitesi (son kullanıcı)
+1. Fotoğraf veya video sürükleyin.
+2. Ayarları seçin: **büyütme oranı** (1–4×), **gürültü temizleme**, **renk** (otomatik / canlandır / renklendir), **çizik ve toz temizleme**.
+   *Gelişmiş* bölümünde yöntem (Real-ESRGAN, klasik, Lanczos, Bicubic), model, keskinleştirme ve çıktı biçimi seçilebilir.
+3. **İyileştir** düğmesine basın, önce/sonra kaydırıcısıyla (video için yan yana oynatıcıyla) karşılaştırın, **Sonucu indir** ile kaydedin.
 
-Diğer sekmeler:
-- **Yöntem Karşılaştırma:** Tek görüntüde tüm yöntemleri çalıştırır; GT varsa PSNR, SSIM ve LPIPS tablosunu ve rapora konabilecek etiketli ızgarayı üretir.
-- **Veri Seti:** Her bozulmuş örnek, GT'si ve uygulanan bozulma zinciriyle birlikte listelenir.
-- **Arka Plan & Mimari:** Boru hattı şeması, donanım durumu, model durumu ve yöntem tablosu.
-- **İşler:** Tüm işler ile her işin `job.json` ve `trace.json` kayıtları.
+### Sunum / teknik inceleme not defteri (`RetroRestore_Colab.ipynb`)
+Veri seti, arka plan akışı, yöntem karşılaştırması ve büyük ölçekli test, projenin kendi Python kodu çalıştırılarak bu not defterinde gösterilir:
+
+| Bölüm | Gösterilen |
+|---|---|
+| 1 | Web sitesini başlatır ve linkini verir |
+| 2 | Veri seti: gruplar, sayılar, GT ↔ bozulmuş örnekler ve bozulma zincirleri |
+| 3 | Arka plan akışı: bir fotoğrafın her adımı (süre, parametre, ara görüntü) |
+| 4 | Real-ESRGAN içeride: mimari, parametre sayıları, DNI ile gürültü ayarı |
+| 5 | Yöntem karşılaştırma: Bicubic, Lanczos, Klasik, FSRCNN, EDSR, Real-ESRGAN (PSNR/SSIM/LPIPS + görsel ızgara) |
+| 6 | Video boru hattı: kare çıkarma → işleme → ses senkronlu birleştirme |
+| 7 | **DIV2K üzerinde büyük ölçekli test:** 100 görüntü × 4 bozulma grubu = 400 test çifti, tablo ve grafikler |
+| 8 | Sonuçları (CSV, Markdown tablo, ızgaralar) zip olarak indirme |
 
 ### Komut satırı
 ```bash
@@ -154,6 +156,11 @@ dataset/
 python scripts/make_dataset.py                       # dahili örneklerle (seed=2026)
 python scripts/make_dataset.py --source DIV2K_valid_HR --limit 30
 python scripts/evaluate.py                           # → dataset/results/{metrics.csv, metrics.json, summary.md, grid_*.jpg}
+
+# Büyük ölçekli test (DIV2K doğrulama seti, 100 görüntü → 400 test çifti)
+python scripts/download_benchmarks.py
+python scripts/make_dataset.py --source benchmarks/DIV2K_valid_HR --prefix div2k_ --append --no-video --max-side 768 --limit 100
+python scripts/evaluate.py --prefix div2k_
 ```
 
 - PSNR ve SSIM: Y kanalında, kenarlardan 4 piksel kırpılarak hesaplanır · LPIPS: `pip install lpips` ile
@@ -174,6 +181,7 @@ retro-restore/
 ├── LICENSE
 ├── requirements.txt
 ├── run.py                        ← web sunucusunu başlatır
+├── RetroRestore_Colab.ipynb      ← sunum + canlı demo + büyük ölçekli test (Colab/Jupyter)
 ├── enhance_cli.py                ← komut satırı arayüzü
 ├── retrorestore/
 │   ├── config.py                 ← tüm limitler ve ayarlar (RR_* ortam değişkenleri)
@@ -197,9 +205,10 @@ retro-restore/
 │   └── web/
 │       ├── app.py                ← Flask REST API
 │       ├── jobs.py               ← iş kuyruğu (tek işçi), iptal, TTL temizlik
-│       └── static/               ← index.html, css/style.css, js/app.js
+│       └── static/               ← kullanıcı sitesi: index.html, css/style.css, js/app.js
 ├── scripts/
 │   ├── download_models.py        ← ağırlık indirici (yedek adresli)
+│   ├── download_benchmarks.py    ← DIV2K doğrulama seti indirici
 │   ├── make_dataset.py           ← seed'li test veri seti üretici
 │   └── evaluate.py               ← toplu nicel değerlendirme
 ├── dataset/                      ← test/doğrulama veri seti (bkz. bölüm 5)

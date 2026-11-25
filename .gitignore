@@ -13,3 +13,4 @@ models/*.npy
 .DS_Store
 Thumbs.db
 dataset/results/_tmp/
+benchmarks/
